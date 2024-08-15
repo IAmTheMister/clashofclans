@@ -19,7 +19,6 @@ class Mapa:
         self.y = y
         self.muros = muros
         self.mapa = self.crear_mapa()
-        self.distman = abs(self.ox - self.px) + abs(self.oy - self.py) 
 
     def __repr__(self):
         return str((self.px,self.py, self.ox, self.oy, self.x, self.y, self.muros))
@@ -43,21 +42,20 @@ class Mapa:
     def heuristica(self):
         h = abs(self.ox - self.px) + abs(self.oy - self.py) 
         if (self.px, self.py) in self.muros:
-            h += 100000
-
+            h += 100000000
         return h
         
 
 class Juego:
     def main(self):
-        mapa = Mapa(3,0,1,4,5,5,[(1,2),(2,1)])
+        mapa = Mapa(1,0,1,4,5,5,[(1,1),(3,2)])
+        print(mapa.heuristica())
         for fila in mapa.mapa:
             print(fila)
         print("")
         mapa_exp = self.expandir_nodos(mapa)
         while mapa_exp.px != mapa_exp.ox or mapa_exp.py != mapa_exp.oy:
             mapa_exp = self.expandir_nodos(mapa_exp)
-
 
     def expandir_nodos(self, mapa):
         lista = []
@@ -75,9 +73,11 @@ class Juego:
             lista.append(mapa_2)
 
         minimo_h = min(lista, key = lambda minimo:minimo.heuristica())
+        print(minimo_h.heuristica())
         for fila in minimo_h.mapa:
             print(fila)
         print("")
+
         return minimo_h
 
     def rep_mapa(self, archivo_mapa):
